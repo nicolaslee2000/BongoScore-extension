@@ -1,0 +1,7 @@
+#download {
+  color: white;
+  background-color: orange;
+}
+#download:hover {
+  filter: brightness(80%);
+}

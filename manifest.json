@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Musescore Downloader",
+  "description": "A sneaky downloader to bypass greed and achieve artistic freedom",
+  "version": "0.1",
+  "permissions": ["webRequest"],
+  "host_permissions": [
+    "https://musescore.com/*",
+    "https://s3.ultimate-guitar.com/musescore.scoredata/g/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/bongoCat.png"],
+      "matches": ["https://musescore.com/*"]
+    }
+  ],
+  "icons": {
+    "16": "assets/bongoCat.png",
+    "32": "assets/bongoCat.png",
+    "48": "assets/bongoCat.png",
+    "128": "assets/bongoCat.png"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "css": [
+        "scripts/buttonLoader.index.min.css",
+        "scripts/loading.min.css",
+        "scripts/downloadButton.css"
+      ],
+      "start_at": "document_end",
+      "matches": ["https://musescore.com/*"]
+    }
+  ]
+}
