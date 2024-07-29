@@ -1,6 +1,10 @@
+import "./buttonLoader.index.min.css";
+import "./loading.min.css";
+import "./downloadButton.css";
+
 // global variables
 const downloadButton = document.createElement("button");
-const urls = [];
+let urls = [];
 
 // on document load
 const init = () => {
@@ -44,10 +48,11 @@ const createDownloadButton = () => {
 
   // button icon
   const icon = document.createElement("img");
-  icon.src = chrome.runtime.getURL("assets/bongoCat.png");
-  icon.setAttribute("height", "25");
-  icon.setAttribute("width", "25");
+  icon.src = chrome.runtime.getURL("assets/BongoCat.png");
+  icon.setAttribute("height", "30");
+  icon.setAttribute("width", "30");
   icon.setAttribute("alt", "bongo cat");
+  icon.style.objectFit = "scale-down";
   icon.style.marginLeft = "5px";
 
   downloadButton.appendChild(spinner);
@@ -56,25 +61,41 @@ const createDownloadButton = () => {
 
 const handleOnClick = async (e) => {
   e.preventDefault();
-  downloadButton.disabled = true;
-  downloadButton.classList.add("running");
+  setRunningOn();
   try {
     await download();
   } catch (e) {
     alert("unknown downloader extension error" + e);
   }
+  setRunningOff();
+};
+
+const setRunningOn = () => {
+  downloadButton.disabled = true;
+  downloadButton.classList.add("running");
+  downloadButton.querySelector("img").src = chrome.runtime.getURL(
+    "assets/BongoCat.gif"
+  );
+};
+
+const setRunningOff = () => {
   downloadButton.disabled = false;
   downloadButton.classList.remove("running");
+  downloadButton.querySelector("img").src = chrome.runtime.getURL(
+    "assets/BongoCat.png"
+  );
 };
 
 const download = async () => {
-  await getUrls();
-  for (url of urls) {
-    console.log(url);
-  }
+  await triggerRequests();
+  urls = await chrome.storage.session.get("5171086");
+
+  // for (const url of urls) {
+  //   console.log(url);
+  // }
 };
 
-const getUrls = async () => {
+const triggerRequests = async () => {
   const ifr = document.createElement("iframe");
   ifr.src = window.location.href;
   ifr.style.width = "1000px";
@@ -85,14 +106,28 @@ const getUrls = async () => {
   // wait for musescore to send requests
   if (pageCount !== null) {
     let tries = 0;
-    while (pageCount > urls.length) {
-      if (tries > 10) {
-        break;
+    await delay(5);
+
+    for (let i = 0; i < pageCount; i++) {
+      const key = `${5171086}?${i}`;
+      console.log("content " + key);
+
+      const url = await chrome.storage.session.get(key);
+      if (url != null) {
+        console.log("aaaaaaa");
+        console.log(url);
       }
-      await delay(0.5);
-      tries++;
     }
+
+    // while (pageCount > urls.length) {
+    //   if (tries > 10) {
+    //     break;
+    //   }
+    //   await delay(0.5);
+    //   tries++;
+    // }
   } else {
+    console.log("bongoscore: page count unavailable");
     await delay(5);
   }
 

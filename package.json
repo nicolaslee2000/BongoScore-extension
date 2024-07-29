@@ -1,0 +1,30 @@
+{
+  "name": "bongoscore",
+  "version": "0.0.3",
+  "scripts": {
+    "start": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
+    "build": "parcel build src/manifest.json --config @parcel/config-webextension"
+  },
+  "keywords": [
+    "downloader",
+    "musescore"
+  ],
+  "author": "Nicolas Lee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicolaslee2000/BongoScore-extension"
+  },
+  "license": "ISC",
+  "description": "A sneaky downloader to overthrow greed and achieve artistic freedom",
+  "devDependencies": {
+    "@parcel/config-webextension": "^2.12.0",
+    "@types/chrome": "^0.0.269",
+    "@types/jquery": "^3.5.14",
+    "parcel": "^2.12.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "pdfkit": "^0.15.0"
+  }
+}
