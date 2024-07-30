@@ -5,3 +5,7 @@
 #download:hover {
   filter: brightness(80%);
 }
+#download:disabled {
+  opacity: 1;
+  filter: brightness(60%);
+}

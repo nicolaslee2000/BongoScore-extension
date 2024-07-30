@@ -5,6 +5,9 @@ chrome.storage.session.setAccessLevel({
 chrome.webRequest.onSendHeaders.addListener(
   async ({ url, requestHeaders }) => {
     const search = new URL(url).searchParams;
+    if (search.get("type") !== "img") {
+      return;
+    }
     const id = search.get("id");
     const index = search.get("index");
     const token = requestHeaders?.find(

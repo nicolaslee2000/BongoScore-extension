@@ -2,17 +2,11 @@
   "manifest_version": 3,
   "name": "BongoScore",
   "description": "A sneaky downloader to overthrow greed and achieve artistic freedom",
-  "version": "0.2",
+  "version": "0.1.0",
   "permissions": ["webRequest", "storage"],
   "host_permissions": [
     "https://musescore.com/*",
-    "https://s3.ultimate-guitar.com/musescore.scoredata/g/*"
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/BongoCat.png", "assets/BongoCat.gif"],
-      "matches": ["https://musescore.com/*"]
-    }
+    "https://s3.ultimate-guitar.com/*"
   ],
   "icons": {
     "16": "assets/BongoCat.png",
@@ -21,12 +15,12 @@
     "128": "assets/BongoCat.png"
   },
   "background": {
-    "service_worker": "background/background.ts",
+    "service_worker": "background/service-worker.ts",
     "type" :"module"
   },
   "content_scripts": [
     {
-      "js": ["content/content.js"],
+      "js": ["content/content.ts"],
       "run_at": "document_end",
       "matches": ["https://musescore.com/*"]
     }
