@@ -22,6 +22,11 @@ const handleOnClick = async (e: JQuery.Event) => {
 };
 
 const download = async () => {
+  const pageCount = getPageCount();
+  const scoreId = getScoreId();
+  for (let i = 0; i < pageCount; i++) {
+    await chrome.storage.session.remove(`${scoreId}?${i}`);
+  }
   const ifr = $("<iframe></iframe>")
     .attr("src", window.location.href)
     .css({
@@ -30,15 +35,14 @@ const download = async () => {
       position: "fixed",
     })
     .appendTo($(document.body));
-  const pageCount = getPageCount();
   const tokens: string[] = [];
-  const scoreId = getScoreId();
   if (!scoreId) {
     alert("bongoscore: scoreid unavailable");
     return;
   }
   let tries = 0;
   let index = 1;
+  await delay(3);
   while (index < pageCount) {
     if (tries > 10) {
       alert("bongoscore: download timeout!");
@@ -117,9 +121,9 @@ const getResizedSvgViewport = (svgStr: string) => {
   if (!svgDom) {
     return "";
   }
-  const height = $(svgDom).children().first().attr("height");
-  const width = $(svgDom).children().first().attr("width");
-  $(svgDom).children().first().attr("viewBox", `0 0 ${width} ${height}`);
+  const height = $(svgDom).attr("height");
+  const width = $(svgDom).attr("width");
+  $(svgDom).attr("viewBox", `0 0 ${width} ${height}`);
   return new XMLSerializer().serializeToString(svgDom);
 };
 
